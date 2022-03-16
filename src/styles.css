@@ -1,0 +1,88 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.btn-lightbrown {
+  background-color: hsl(46, 33, 77) !important;
+  background-repeat: repeat-x;
+  background-image: -o-linear-gradient(top, #d8cfb2, #d8cfb2);
+  background-image: linear-gradient(#d8cfb2, #d8cfb2);
+  border-color: #d8cfb2 !important;
+  color: #000 !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: -0.5px 1px 0 rgba(0, 0, 0, 0.7);
+  border-radius: 10px !important;
+}
+
+.btn-lightbrown:hover,
+.btn-lightbrown:focus {
+  background-color: #958f7b !important;
+  background-repeat: repeat-x;
+  background-image: linear-gradient(#958f7b, #958f7b);
+  border-color: #958f7b !important;
+  color: #fff !important;
+  text-shadow: 0 -0.5px 0 #fff;
+  box-shadow: -0.5px 1px 0 rgba(0, 0, 0, 0.6);
+}
+.btn-darkbrown {
+  background-color: hsl(46, 33, 77) !important;
+  background-repeat: repeat-x;
+  background-image: -o-linear-gradient(top, #958f7b, #958f7b);
+  background-image: linear-gradient(#958f7b, #958f7b);
+  border-color: #958f7b !important;
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 1px #99999999;
+  border-radius: 10px !important;
+  margin-bottom: 5px;
+}
+
+.btn-darkbrown:hover,
+.btn-darkbrown:focus {
+  background-color: #d8cfb2 !important;
+  background-repeat: repeat-x;
+  background-image: linear-gradient(#d8cfb2, #d8cfb2);
+  border-color: #d8cfb2 !important;
+  color: #000 !important;
+  text-shadow: 0 -0.5px 0 #fff;
+  box-shadow: 1px 1px 1px 1px #99999999;
+}
+.btn-lightbrown {
+  border-radius: 10px !important;
+}
+.btn-success {
+  border-radius: 10px !important;
+}
+
+.btn-white {
+  background-color: rgb(255, 255, 255) !important;
+  background-repeat: repeat-x;
+  background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+  background-image: linear-gradient(#ffffff, #ffffff);
+  border-color: #000000 !important;
+  color: rgb(0, 0, 0) !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 1px #99999999;
+  border-radius: 10px !important;
+  margin-bottom: 5px;
+}
+
+.btn-white:hover,
+.btn-white:focus {
+  background-color: hsl(46, 33, 77) !important;
+  background-repeat: repeat-x;
+  background-image: -o-linear-gradient(top, #958f7b, #958f7b);
+  background-image: linear-gradient(#958f7b, #958f7b);
+  border-color: #958f7b !important;
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 1px #99999999;
+  border-radius: 10px !important;
+  margin-bottom: 5px;
+}
+
+.lightbrown{
+  background-color: #D8CFB2;
+}
+.darkbrown{
+  background-color: #958f7b;
+}

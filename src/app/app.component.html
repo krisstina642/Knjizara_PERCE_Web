@@ -1,0 +1,202 @@
+
+
+<div class="toolbar" role="banner" style="max-width: 1500px; position: inherit; height: 100px;" >
+  <div style="max-width: 220px; margin-left: 50px; margin-top: 15px;">
+    <img width="100%" height="auto" alt="Logo" src="/assets/image/logo.png" (click)="pocetna()" />
+  </div >
+  <div class="spacer"></div>
+  <div style="margin-top:50px">
+    <div class="input-group">
+      <span class="p-input-icon-left p-mb-2 p-mb-md-0"><i
+          class="pi pi-search pretraga" (click)="handleSearch()"></i><input type="search" pinputtext=""
+          placeholder="Pretraži knjige" class="p-inputtext p-component p-element" style="margin-right: 30px;"
+          (keyup.enter)="handleSearch()" [(ngModel)]="pretraga"> </span>
+    </div>
+  </div>
+
+  <a routerLink="/"><button class="btn btn-lightbrown bot" *ngIf="ulogovanKorisnik==null || ulogovanKorisnik.tip==0">početna</button></a>
+  <a routerLink="/knjige"> <button class="btn btn-lightbrown bot">knjige</button></a>
+  <button class="btn btn-lightbrown bot" *ngIf="ulogovanKorisnik!=null && ulogovanKorisnik.tip==1" (click)="openScrollableContent(NovaKnjiga)">dodaj novu knjigu</button>
+  <button class="btn btn-lightbrown bot" *ngIf="ulogovanKorisnik!=null && ulogovanKorisnik.tip==0" (click)="prikazPreporuka()">moje preporuke</button>
+  <button class="btn btn-lightbrown last bot" *ngIf="ulogovanKorisnik!=null" (click)="prikazProfila()">PROFIL</button>
+  <button class="btn btn-lightbrown last bot"
+    (click)="openScrollableContent(Prijava)" *ngIf="ulogovanKorisnik==null">prijava</button>
+  </div>
+<hr>
+<div class="content" role="main" style="position: relative; min-height: 90vh;">
+  <div style="padding-bottom: 250px;">
+    <router-outlet></router-outlet>
+  </div>
+  <form  class="footer">
+    <br>
+    <br>
+    <div class="info" style=" margin-left: 350px;">
+      <h5>Knjižara Perce</h5>
+      <br>
+      <h6>knjizaraperce@gmail.com</h6>
+      <h6>0612345678</h6>
+      <h6>Karađorđeva 5 Beograd</h6>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<ng-template #Prijava let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Prijava</h4>
+    <button type="button" class="close btn btn-lightbrown" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body d-flex justify-content-center">
+    <form style="width: 60%;">
+      <div class="grid-container">
+        <tr>
+          <h5>Korisničko ime</h5>
+        </tr>
+        <tr>
+          <input id="pkorisnickoime" name="korisnickoime" type="text" style="width: 100%;" pInputText [(ngModel)]="pkorisnik_kor_ime">
+        </tr>
+        <tr>
+          <h5>Lozinka</h5>
+        </tr>
+        <tr>
+          <input id="ppassword" name="lozinka" type="password" style="width: 100%;" pInputText [(ngModel)]="pkorisnik_lozinka">
+        </tr>
+        <tr class="d-flex justify-content-end">
+          <button class="btn btn-lightbrown " style="width: 50%;" (click)="modal.dismiss('Cross click'); prijava();">Prijavi
+            se</button>
+        </tr>
+        <tr class="d-flex justify-content-center">
+          <h5>Novi korisnik?</h5>
+        </tr>
+        <tr class="d-flex justify-content-center">
+          <button class="btn btn-lightbrown" style="width: 100%; margin-bottom: 30px;" (click)="modal.dismiss('Cross click'); openScrollableContent(Registracija)">Registruj
+            se</button>
+        </tr>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+<ng-template #Registracija let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Registruj se</h4>
+    <button type="button" class="close btn btn-lightbrown" aria-label="Close" id="close_button" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body d-flex justify-content-center">
+    <form class="row g-2">
+      <div class="col-md-6">
+        <h5>Ime</h5>
+        <input name="ime" type="text" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.ime">
+      </div>
+      <div class="col-md-6">
+        <h5>Prezime</h5>
+        <input name="prezime" type="text" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.prezime">
+      </div>
+      <div class="col-md-6">
+        <h5>Korisničko ime</h5>
+        <input name="korisnickoime" type="text" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.kor_ime">
+      </div>
+      <div class="col-md-6">
+        <h5>Telefon</h5>
+        <input name="telefon" type="text" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.telefon">
+      </div>
+      <div class="col-md-6">
+        <h5>Država</h5>
+        <input name="drzava" type="text" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.drzava">
+      </div>
+      <div class="col-md-6">
+        <h5>Grad</h5>
+        <input name="grad" type="text" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.grad">
+      </div>
+      <div class="col-md-6">
+        <h5>Ulica</h5>
+        <input name="ulica" type="text" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.ulica">
+      </div>
+      <div class="col-md-6">
+        <h5>Kućni broj</h5>
+        <input name="kucni_broj" type="text" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.broj">
+      </div>
+      <div class="col-md-6">
+        <h5>Lozinka</h5>
+        <input name="lozinka" type="password" style="width: 100%;" pInputText [(ngModel)]="rkorisnik.lozinka">
+      </div>
+      <div class="col-md-6">
+        <h5>Ponovite lozinku</h5>
+        <input name="lozinka2" type="password" style="width: 100%;" pInputText [(ngModel)]="ponovljena_lozinka">
+      </div>
+      <div class="col-md-12 d-flex justify-content-center">
+        <h6>Registruj se kao</h6>
+      </div>
+      <div class="col-md-6 d-flex justify-content-center">
+        <button class="btn btn-lightbrown " style="width: 95%;" (click)=" registracija(0);">Kupac</button>
+      </div>
+      <div class="col-md-6 d-flex justify-content-center">
+        <button class="btn btn-lightbrown " style="width: 95%;" (click)=" registracija(1);">Prodavac</button>
+      </div>
+      <div class="col-md-12 d-flex justify-content-center" style="margin-top: 30px;">
+        <a class="link" (click)="modal.dismiss('Cross click'); openScrollableContent(Prijava)" style="margin-bottom: 30px;">Povratak na prijavu</a>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Modal -->
+<ng-template #NovaKnjiga let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Dodaj novu knjigu</h4>
+    <button type="button" class="close btn btn-lightbrown" aria-label="Close" (click)="modal.dismiss('Cross click');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body d-flex justify-content-center">
+    <form class="row g-2">
+      <div class="col-md-12">
+        <h5>Naziv:</h5>
+        <input name="ime" type="text" style="width: 100%;" pInputText [(ngModel)]="novaKnjiga.naziv">
+      </div>
+      <div class="col-md-12">
+        <h5>Autor:</h5>
+        <input name="autor" type="text" style="width: 100%;" pInputText [(ngModel)]="novaKnjiga.autor">
+      </div>
+      <div class="col-md-12">
+        <h5>Godina izdanja:</h5>
+        <input name="god" type="number" style="width: 100%;" pInputText [(ngModel)]="novaKnjiga.godina">
+      </div>
+      <div class="col-md-12">
+        <h5>Broj strana</h5>
+        <input name="brStr" type="number" style="width: 100%;" pInputText [(ngModel)]="novaKnjiga.broj_strana">
+      </div>
+      <div class="col-md-12">
+        <h5>Opis</h5>
+        <input name="opis" type="text" style="width: 100%;" pInputText [(ngModel)]="novaKnjiga.opis">
+      </div>
+      <div class="col-md-12">
+        <h5>Odaberi sliku</h5>
+      </div>
+
+        <div class="col-md-6 c-style" *ngFor="let omot of omoti; index as i;" style="display: flex; justify-content: center">       
+        <div class=" card" style="width: min-content; height:min-content;">
+          <div class="product-grid-item-top">
+            <img src="{{omot}}" class="card-img-top" style="width: 60px;">
+          </div>
+          <div class="card-body">
+            <p-radioButton name="groupname" value="{{i}}" [(ngModel)]="omotiOdabir"></p-radioButton> 
+          </div>
+          
+        </div>
+      </div>
+      <div class="col-md-12 d-flex justify-content-center" style="margin-top: 30px;">
+        <button class="btn btn-lightbrown " style="width: 50%;" (click)="dodajKnjigu()">Potvrdi</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

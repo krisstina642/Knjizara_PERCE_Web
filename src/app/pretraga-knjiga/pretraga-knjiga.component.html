@@ -1,0 +1,25 @@
+<div style="text-align: center;" *ngIf="pretraga.length>0">
+  <h1>Rezultati pretrage: "{{input}}"</h1>
+  <p-dataView [value]="pretraga" [paginator]="true" [rows]="9" layout="grid">
+    <ng-template let-knjiga pTemplate="gridItem" class="grid" style="margin: 0 auto; justify-content: center;">
+      <div class="p-col-1 p-md-4">
+        <div class="item card" style="width: 255px;" (click)="onSelect(knjiga)">
+          <div class="product-grid-item-top">
+            <img src="{{knjiga.slika}}" class="card-img-top"
+              [ngStyle]="{'position': (knjiga.promocija==1) ? 'absolute' : 'relative'}">
+            <img *ngIf="knjiga.promocija==1" src="/assets/image/akcija.png" style="position: relative;"
+              class="card-img-top">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title" style="overflow-wrap: break-word;">{{knjiga.naziv}}</h5>
+            <p class="card-text">{{knjiga.autor}}</p>
+          </div>
+        </div>
+
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
+<div style="text-align: center;" *ngIf="pretraga.length<1">
+  <h2>Ne postoje knjige za traženu pretragu: "{{input}}"</h2>
+</div>

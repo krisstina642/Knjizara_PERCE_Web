@@ -1,0 +1,37 @@
+<div style="text-align: center;">
+  <div style="text-align: center;" *ngIf="knjigepromocija.length>0">
+  <h1 style="margin-bottom: 40px;">Knjige na popustu</h1>
+  <p-carousel [value]="knjigepromocija" [numVisible]="3" [numScroll]="1">
+    <ng-template let-knjiga pTemplate="item">
+      <div class="item card" (click)="onSelect(knjiga.id)" style="margin-left:10px; margin-right: 10px; max-width: 310px;">
+        <img src="{{knjiga.slika}}" styleClass="custom-carousel" class="card-img-top" style="position: absolute;">
+        <img src="/assets/image/akcija.png" styleClass="custom-carousel" class="card-img-top"
+          style="position: relative;">
+        <div class="card-body" style="position: relative;">
+          <h5 class="card-title">{{knjiga.naziv}}</h5>
+          <p class="card-text">{{knjiga.autor}}</p>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>
+<div *ngIf="knjigeBezPopusta.length>0">
+  <h1>Sve knjige</h1>
+  <p-dataView [value]="knjigeBezPopusta" [paginator]="true" [rows]="9" layout="grid" style="">
+    <ng-template let-knjiga pTemplate="gridItem" class="grid" style="margin: 0 auto; justify-content: center;">
+      <div class="p-col-2 p-md-4">
+        <div class="item card" style="width: 310px;" (click)="onSelect(knjiga.id)">
+          <div class="product-grid-item-top">
+            <img src="{{knjiga.slika}}" class="card-img-top">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title" style="overflow-wrap: break-word;">{{knjiga.naziv}}</h5>
+            <p class="card-text">{{knjiga.autor}}</p>
+          </div>
+        </div>
+
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
+</div>

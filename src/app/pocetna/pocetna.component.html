@@ -1,0 +1,12 @@
+<div class="center">
+  <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="true" [interval]="5000" [keyboard]="true"
+    [showNavigationIndicators]="true">
+    <ng-template ngbSlide *ngFor="let p of dogadjaji">
+      <div class="wrapper">
+        <img (click)="onSelect(p.id)" src="{{p.slika}}" style="min-width: 900px;">
+      </div>
+    </ng-template>
+  </ngb-carousel>
+  <br>
+</div>
+<app-knjige></app-knjige>

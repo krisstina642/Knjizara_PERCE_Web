@@ -1,0 +1,190 @@
+<div style="width: 900px; ">
+    <div class="grid">
+        <tr>
+            <td style=" width: 300px;">
+                <img src="{{Knjiga.slika}}" style="margin-left: 20px;"
+                    [ngStyle]="{'position': (Knjiga.promocija==1) ? 'absolute' : 'relative'}">
+                <img *ngIf="Knjiga.promocija==1" src="/assets/image/akcija.png"
+                    style="position: relative;margin-left: 20px;">
+            </td>
+            <td style=" vertical-align:top; width: 400px; align-items: left;">
+                <h2 style="margin-top: 30px;">
+                    {{Knjiga.naziv}}
+                </h2>
+                <h4>
+                    {{Knjiga.autor}}
+                </h4>
+                <br>
+                <h6>Broj strana: {{Knjiga.broj_strana}}</h6>
+                <h6>Godina izdavanja: {{Knjiga.godina}}</h6>
+                <br>
+        <tr>
+            <td>
+                <h6>Ocena:&nbsp;&nbsp;</h6>
+            </td>
+            <td>
+                <p-rating [(ngModel)]="Knjiga.ocena" [cancel]="false" [readonly]="true"></p-rating>
+            </td>
+            <td>
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;{{Knjiga.ocena}}</h6>
+            </td>
+        </tr>
+        </td>
+        <td style="vertical-align:top; margin-right: 10px;" *ngIf="ulogovaniKorisnik!=null">
+            <div *ngIf="ulogovaniKorisnik.tip!=null && ulogovaniKorisnik.tip==0">
+                <button class="btn btn-darkbrown" style="margin-top: 100px; width: 90%;"
+                    (click)="openScrollableContent(Preporuci)">PREPORUČI
+                    PRIJATELJU</button>
+                <button class="btn btn-darkbrown" style="width: 90%;" (click)="openScrollableContent(Oceni)">OCENI
+                    KNJIGU</button>
+            </div>
+            <div *ngIf="ulogovaniKorisnik.tip!=null && ulogovaniKorisnik.tip==1">
+                <button class="btn btn-danger" style="margin-top: 100px; width: 90%;" *ngIf="Knjiga.promocija==1"
+                    (click)="promocija(false)">UKLONI SA
+                    PROMOCIJE&nbsp;</button>
+                <button class="btn btn-success" style="margin-top: 100px; width: 90%;" *ngIf="Knjiga.promocija==0"
+                    (click)="promocija(true)">DODAJ NA
+                    PROMOCIJU</button>
+            </div>
+        </td>
+        </tr>
+    </div>
+    <p-divider></p-divider>
+
+    <p-panel header="Opis" id="panel">
+        {{Knjiga.opis}}
+    </p-panel>
+    <div>
+        <p-tabView>
+            <p-tabPanel header="Komentari korisnika:">
+                <div *ngFor="let kom of komentari">
+                    <div *ngIf="kom.tekst!=''">
+                        <div style="padding: 0; margin: 0;">
+                            <p-divider type="none">
+                                <div class="p-d-inline-flex p-ai-center">
+                                    <i class="pi pi-user p-mr-2"></i>
+                                    <b>{{getUsername(kom.idKorisnika)}}:</b>
+                                </div>
+                            </p-divider>
+                        </div>
+                        <p-card>
+                            {{kom.tekst}}
+                        </p-card>
+                    </div>
+                </div>
+                <div *ngIf="komentari==null || komentari.length==0">
+                    Ova knjiga još uvek nema komentara. Budi prvi korisnik koji će ostaviti komentar
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Dodaj Komentar" *ngIf="ulogovaniKorisnik!=null">
+                <div style="padding: 0;">
+                    <p-divider type="none">
+                        <div class="p-d-inline-flex p-ai-center">
+                            <i class="pi pi-user p-mr-2"></i>
+                            <b>{{ulogovaniKorisnik.ime}}:</b>
+                        </div>
+                    </p-divider>
+                </div>
+
+                <input [(ngModel)]="komentarKorisnika.tekst" style="width:690px;" placeholder="Unesi komentar">
+
+                <tr class="justify-content-end" style=" width:700px; display: flex;">
+                    <button class="btn btn-darkbrown" style="width: 40%; margin-top: 10px;"
+                        (click)="dodajKomentar()">Potvrdi</button>
+                </tr>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>
+
+<!-- Modal -->
+<ng-template #Oceni let-modal>
+    <div class="modal-header" style="height: 60px;">
+        <div class="modal-title"></div>
+        <button type="button" class="close btn btn-lightbrown" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"><span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form class="row g-2" style="margin-top: 10px;">
+        <div class="col-md-12" style="display: flex; justify-content: center;">
+            <p-rating [cancel]="false" [iconOnStyle]="{'color':'#a8a832'}" [(ngModel)]="komentarKorisnika.ocena" name="ratingg">
+            </p-rating>
+        </div>
+        <div class="col-md-12" style="display: flex; justify-content: center;">
+            <button class="btn btn-darkbrown" style="width: 50%; margin-bottom: 30px;"
+                (click)="modal.dismiss('Cross click'); unosOcene();">Potvrdi</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #Preporuci let-modal>
+    <div class="modal-header lightbrown" style="height: 60px; width: 100%">
+        <div class="modal-title">Preporuči prijatelju</div>
+        <button type="button" class="close btn btn-lightbrown" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"><span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body lightbrown" *ngIf="prijatelji.length==0">
+        <h5>Trenutno ne postoje prijatelji kojima možete da preporučite knjigu</h5>
+    </div>
+
+    <div class="modal-body lightbrown">
+        <p-scrollPanel>
+            <form class="row g-2" style="width: 95%;">
+                <div class="col-md-3" *ngFor="let k of prijateljiCopy" (click)="clickPrijatelj(k.id)"
+                    style="text-align: center;">
+                    <div class="item card c1" style="margin-left:1px; margin-right: 1px;">
+                        <div class="card-body" style="position: relative;">
+                            <h6 style=" font-size: 3vw; font-size: 12px;">{{k.ime}}</h6>
+                            <h5 style=" font-size: 1vw; font-size: 8px; margin-left: 2px;">@{{k.kor_ime}}</h5>
+                            <input type="checkbox" name="cekiran" [(ngModel)]="cekirani[k.id]"  name="checkbox{{k.id}}">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </p-scrollPanel>
+    </div>
+    <form class="row g-2 lightbrown" *ngIf="prijatelji.length>0">
+        <div class="col-md-7">
+            <div style="width: 100%; border-width: 5px; border-color: black;">
+                <div class="input-group"
+                    style="display: flex; justify-content: center; vertical-align: center; margin-top: 5px;">
+                    <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                        <i class="pi pi-search pretraga" (click)="handleSearch()" style="margin-left: 10px;"></i>
+                        <input type="search" pinputtext="" placeholder="Pretraži prijatelje"
+                            class="p-inputtext p-component p-element" (keyup)="handleSearch()" name="inputt" [(ngModel)]="pretraga">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 " style="display: flex; justify-content: center;">
+            <button class="btn btn-white" style="width: 50%; margin-top: 12px; margin-bottom: 30px"
+                (click)="modal.dismiss('Cross click'); openScrollableContent(Komentar)">Potvrdi</button>
+        </div>
+    </form>
+</ng-template>
+
+
+
+<ng-template #Komentar let-modal>
+    <div class="modal-header lightbrown" style="height: 60px; width: 100%">
+        <div class="modal-title">Dodaj komentar</div>
+        <button type="button" class="close btn btn-lightbrown" aria-label="Close"
+            (click)="modal.dismiss('Cross click')"><span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form class="row g-2 lightbrown" style="display: flex; justify-content: center;">
+        <div class="col-md-12 " style="display: flex; justify-content: center;">
+            <input name=kom placeholder="Komentar" style="width: 90%" [(ngModel)]="komentarNaPreporuku">
+        </div>
+        <div class="col-md-5 " style="display: flex; justify-content: center;">
+            <button class="btn btn-white" style="width: 50%; margin-top: 12px; margin-bottom: 30px"
+                (click)="modal.dismiss('Cross click'); openScrollableContent(Preporuci)">Povratak</button>
+        </div>
+        <div class="col-md-5 " style="display: flex; justify-content: center;">
+            <button class="btn btn-white" style="width: 50%; margin-top: 12px; margin-bottom: 30px"
+                (click)="posaljiPreporuke(); modal.dismiss('Cross click') ">Potvrdi</button>
+        </div>
+    </form>
+</ng-template>

@@ -1,0 +1,36 @@
+<h3>Preporuke prijatelja</h3>
+<div *ngIf="preporuke!=null && preporuke.length>0">
+    <form class="row g-1" style="width: 900px; display: flex; justify-content: center;">
+        <div class="col-md-12" *ngFor="let k of preporuke let i = index" style="text-align: center;">
+            <div class="item card c1" style="margin-left:1px; margin-right: 1px;">
+                <div class="modal-header" style="height: 60px; width: 100%">
+                    <div class="modal-title"></div>
+                    <button type="button" class="close btn btn-lightbrown" aria-label="Close" (click)="deleteRecomendation(i)">
+                        <span aria-hidden="true"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                    </button>
+                </div>
+                <form class="row g-2">
+                    <div class="col-md-6" style="width: min-content;">
+                        <div class="item card" style="width: 200px; margin-left: 10px; margin-right: 20px;" (click)="onSelect(knjige[i])">
+                            <div class="product-grid-item-top">
+                                <img src="{{knjige[i].slika}}" class="card-img-top" [ngStyle]="{'position': (knjige[i].promocija==1) ? 'absolute' : 'relative'}">
+                                <img *ngIf="knjige[i].promocija==1" src="/assets/image/akcija.png" style="position: relative;" class="card-img-top">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title" style="overflow-wrap: break-word;">{{knjige[i].naziv}}</h5>
+                                <p class="card-text">{{knjige[i].autor}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1" style=" margin-top: 30px; width: max-content; justify-content: left; text-align: left;">
+                        <h5>{{korisnici[i].ime+" ( "+korisnici[i].kor_ime+" )"}}</h5>
+                        <h6>{{k.komentar}}</h6>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="preporuke==null || preporuke.length==0">
+        <h6>Trenutno nemate novih preporuka</h6>
+</div>
